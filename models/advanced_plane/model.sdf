@@ -128,23 +128,22 @@
         <always_on>1</always_on>
         <update_rate>100</update_rate>
         <magnetometer>
-          <!-- TODO: update to fix units and coordinate system when we move past Harmonic -->
-          <!-- See https://github.com/gazebosim/gz-sim/pull/2460 -->
-          <!-- 3mgauss RMS: NOTE: noise is in tesla but sensor reports data in gauss -->
-          <!-- Noise modeled after IIS2MDC -->
+          <!-- 3mgauss RMS = 3e-7 tesla, noise modeled after IIS2MDC -->
+          <!-- Noise is in the units of the field: tesla with use_units_gauss=false (PX4 gz_bridge server.config),
+               gauss with the gz-sim default -->
           <x>
             <noise type="gaussian">
-              <stddev>0.0001</stddev>
+              <stddev>3e-7</stddev>
             </noise>
           </x>
           <y>
             <noise type="gaussian">
-              <stddev>0.0001</stddev>
+              <stddev>3e-7</stddev>
             </noise>
           </y>
           <z>
             <noise type="gaussian">
-              <stddev>0.0001</stddev>
+              <stddev>3e-7</stddev>
             </noise>
           </z>
         </magnetometer>
@@ -614,7 +613,9 @@
       <i_gain>0</i_gain>
       <d_gain>0</d_gain>
     </plugin>
-
+    <plugin filename="libAirSpeedPlugin.so" name="px4::AirSpeed">
+      <link_name>base_link</link_name>
+    </plugin>
     <plugin filename="gz-sim-advanced-lift-drag-system" name="gz::sim::systems::AdvancedLiftDrag">
       <a0>0.0</a0>
       <CL0>0.15188</CL0>
@@ -719,6 +720,11 @@
       <rotorVelocitySlowdownSim>10</rotorVelocitySlowdownSim>
       <motorType>velocity</motorType>
 
+    </plugin>
+    <plugin filename="ParachutePlugin" name="gz::sim::systems::ParachuteSystem">
+      <link_name>base_link</link_name>
+      <cd_a>0.64</cd_a>
+      <angular_damping>1.0</angular_damping>
     </plugin>
   </model>
 </sdf>

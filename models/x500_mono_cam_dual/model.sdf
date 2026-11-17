@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sdf version='1.9'>
+  <model name='x500_mono_cam_dual'>
+    <include merge='true'>
+      <uri>x500</uri>
+    </include>
+    <include>
+      <uri>model://mono_cam</uri>
+      <pose>.12 .03 .242 0 0 0</pose>
+      <name>north_camera</name>
+    </include>
+    <include>
+      <uri>model://mono_cam</uri>
+      <pose>0 0 .08 0 1.5708 0</pose>
+      <name>down_camera</name>
+    </include>
+    <joint name="NorthCameraJoint" type="fixed">
+      <parent>base_link</parent>
+      <child>north_camera::camera_link</child>
+      <pose relative_to="base_link">.12 .03 .242 0 0 0</pose>
+    </joint>
+    <joint name="DownCameraJoint" type="fixed">
+      <parent>base_link</parent>
+      <child>down_camera::camera_link</child>
+      <pose relative_to="base_link">0 0 .08 0 1.5708 0</pose>
+    </joint>
+  </model>
+</sdf>
